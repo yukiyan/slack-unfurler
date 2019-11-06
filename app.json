@@ -1,0 +1,31 @@
+{
+  "name": "slack-unfurler",
+  "description": "Unfurl private url to slack",
+  "keywords": [
+    "productivity",
+    "team",
+    "docbase",
+    "slack"
+  ],
+  "repository": "https://github.com/yukiyan/slack-unfurler",
+  "env": {
+    "SLACK_OAUTH_ACCESS_TOKEN": {
+      "description": "ex) xoxp-XXXXXXXX-XXXXXXXX-XXXXX"
+    },
+    "DOCBASE_ACCESS_TOKEN": {
+      "description": "Personal Access Token (Require read permission)"
+    },
+    "DOCBASE_TEAM_NAME": {
+      "description": "Docbase team name of targeted for URL unfurling"
+    }
+  },
+  "image": "heroku/ruby",
+  "addons": [
+    {
+      "plan": "redistogo:nano"
+    },
+    {
+      "plan": "papertrail"
+    }
+  ]
+}
