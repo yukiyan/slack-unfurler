@@ -6,6 +6,7 @@ require 'json'
 
 require_relative 'lib/slack_api_client'
 require_relative 'lib/docbase_client'
+require_relative 'lib/event_params'
 
 DOCBASE_TEAM_NAME = ENV['DOCBASE_TEAM_NAME']
 
@@ -18,13 +19,11 @@ post '/' do
     challenge = params['challenge']
     return { challenge: challenge }.to_json
   when 'event_callback'
-    channel = params.dig('event', 'channel')
-    ts      = params.dig('event', 'message_ts')
-    links   = params.dig('event', 'links')
+    event = EventParams.new(params)
 
     unfurls = {}
 
-    links.each do |link|
+    event.links.each do |link|
       url = link['url']
 
       unless url.match(%r{\Ahttps://#{DOCBASE_TEAM_NAME}.docbase.io/posts/(\d+).*\z})
@@ -38,8 +37,8 @@ post '/' do
     end
 
     payload = {
-      channel: channel,
-      ts: ts,
+      channel: event.channel,
+      ts: event.ts,
       unfurls: unfurls
     }.to_json
 
